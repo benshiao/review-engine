@@ -1,0 +1,145 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  <h1>{{cardX.title}}</h1>  <!-- {{id}} is dynamic, pulls string value from url -->
+  <small>Written by {{cardX.author}} on {{cardX.create_date}}</small>
+  <br>
+  {% if cardX.update_date != cardX.create_date %}
+
+    <small>Last updated on {{cardX.update_date}}  </small>
+
+  {% endif %}
+  <hr>
+  <div>
+      {{cardX.body | safe}}
+  </div>
+
+
+  <style>
+    table {
+      font-family: arial, sans-serif;
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    td, th {
+      border: 1px solid #dddddd;
+      text-align: left;
+      padding: 8px;
+    }
+
+    tr:nth-child(even) {
+      background-color: #dddddd;
+    }
+  </style>
+
+  <table style="width:100%">
+    <tr>
+      <th>Restaurant Name</th>
+      <th>Google Overall Rating</th>
+      <th>Yelp Overall Rating</th>
+      <th>Open Table Overall Rating</th>
+    </tr>
+
+    {% for x in restListOnCard %}
+      <tr>
+        <td>{{x.myRestName}}</td>
+        <td>
+          {%if x.googleOverall != 0 %}
+            {{x.googleOverall}}
+          {% else %}
+            N/a
+          {% endif %}
+        </td>
+        <td>
+          {%if x.yelpOverall != 0 %}
+            {{x.yelpOverall}}
+          {% else %}
+            N/a
+          {% endif %}
+        </td>
+        <td>
+          {%if x.opentableOverall != 0 %}
+            {{x.opentableOverall}}
+          {% else %}
+            N\a
+          {% endif %}
+        </td>
+      </tr>
+
+    {% endfor %}
+  </table>
+  <br>
+
+<!-- graph selection form -->
+  {% from 'includes/_formhelpers.html' import render_field %}
+  <form action="" method="post">
+    <div class="form-group">
+      {{ render_field(form.graph_rest) }}
+    </div>
+    <input type="submit" class="btn btn-primary" value="Update graph">
+  </form>
+
+
+
+
+
+
+<!-- chart stuff -->
+    <div class="container">
+      <canvas id="myChart"></canvas>
+    </div>
+    <script>
+
+      let myChart = document.getElementById("myChart").getContext('2d');
+
+      //global options
+      Chart.defaults.global.defaultFontFamily= 'Lata';
+      Chart.defaults.global.defaultFontSize= 18;
+      Chart.defaults.global.defaultFontColor= '#000';
+
+
+      let tableChart = new Chart(myChart, {
+        type: 'line',
+        data: {
+          labels: {{graph_date_list | tojson}}, //the x-axis
+          datasets: [{
+              data: {{yelp_rating_list | tojson}}, //the y-axis
+              lineTension: 0.15,
+              label: "Yelp",
+              borderColor: "#3e95cd",
+              backgroundColor: "#3e95cd",
+              fill: false
+            }
+            , {
+              data: {{opentable_rating_list | tojson}},
+              lineTension: 0.15,
+              label: "Open Table",
+              borderColor: "#8e5ea2",
+              backgroundColor: "#8e5ea2",
+              fill: false
+            }
+          ]
+        },
+        options: {
+          title: {
+            display: true,
+            text: {{graph_restaurant|tojson}}
+          },
+          scales: {
+  					yAxes: [{
+  						ticks: {
+  							// the data minimum used for determining the ticks is Math.min(dataMin, suggestedMin)
+  							suggestedMin: 1,
+
+  							// the data maximum used for determining the ticks is Math.max(dataMax, suggestedMax)
+  							suggestedMax: 5
+  						}
+  					}],
+  				}
+        }
+        });
+
+    </script>
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+{% endblock %}

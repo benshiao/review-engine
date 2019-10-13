@@ -1,0 +1,11 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  <h1>Cards</h1>
+  <ul class = "list-group"><!--cards is the cards=Cards in app.py-->
+      {% for bob in cardZ %}
+          <li class='list-group-item'><a href="viewCard/{{bob.id}}">{{bob.title}}</a></li>
+      {% endfor %}
+
+  </ul>
+{% endblock %}

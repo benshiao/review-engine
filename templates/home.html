@@ -1,0 +1,15 @@
+  {% extends 'layout.html' %}
+
+  {% block body %}
+    <div class="jumbotron text-center">
+      <h1>Benjamin Shiao's<br> Review Web Scraper</h1>
+      <p class="lead"> Made using Flask python frameowrk </p>
+      {% if session.logged_in == NULL %}
+        <a href="/register" class ="btn btn-primary btn-lg">Register</a>
+        <a href="/login" class ="btn btn-success btn-lg">Login</a>
+      {% endif %}
+    </div>
+
+  
+    <!-- might add a cartoon web scrap image here -->
+  {% endblock %}

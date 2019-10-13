@@ -1,0 +1,40 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  <h1>Add Restaurant</h1>
+  {% from 'includes/_formhelpers.html' import render_field %}
+  <form action="" method="post">
+    <div class="form-group">
+      {{ render_field(form.title, class_="form-control") }}
+    </div>
+    <p><small><font color="gray">Name it something so you can find and access this data later <br>
+      Example: ALX by Alexander's Steakhouse, San Francisco</font></small></p>
+    <br>
+
+    <div class="form-group">
+      {{ render_field(form.yelp_url, class_="form-control") }}
+    </div>
+    <p><small><font color="gray">Find the restaurant on Yelp and copy the url, or leave blank if N/A <br>
+      Example: https://www.yelp.com/biz/alx-by-alexanders-steakhouse-san-francisco?osq=alx</font></small></p>
+    <br>
+
+    <div class="form-group">
+      {{ render_field(form.open_table_url, class_="form-control") }}
+    </div>
+    <p><small><font color="gray">Find the restaurant on Open Table and copy the url, or leave blank if N/A  <br>
+      Example: https://www.opentable.com/r/alx-san-francisco?avt=eyJ2IjoxLCJtIjowLCJwIjowfQ&corrId=aaa2e934-d45c-404d-9f18-532529bc806e&p=2&sd=2019-07-29+20%3A00</font></small></p>
+    <br>
+
+    <div class="form-group">
+      {{ render_field(form.google_url, class_="form-control") }}
+    </div>
+    <p><small><font color="gray">Google search the restaurant and copy the url, or leave blank if N/A <br>
+      Example: https://www.google.com/search?biw=1920&bih=969&ei=RK8_XYOxNf_O0PEP9rGZsAw&q=alx+by+alexander%27s+steakhouse&oq=alx+by+&gs_l=psy-ab.3.0.0i20i263j0i67j0i22i10i30j0i22i30l2j0i22i10i30l2j0i22i30.98631.99386..103306...0.0..1.499.1471.1j1j0j2j1......0....1..gws-wiz.......0i71j35i39j0j0i131.2DrYOu8NzkA</font></small></p>
+    <br>
+
+
+    <p> <input type="submit" class="btn btn-primary" value="Submit">
+      <p><small><font color="gray">Please allow submissions to load. It may take a few minutes.</font></small></p>
+      <br>
+  </form>
+{% endblock %}

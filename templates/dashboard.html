@@ -1,0 +1,82 @@
+{% extends 'layout.html' %}
+
+{% block body %}
+  <h1>Dashboard <small>Welcome {{session.username}}</small></h1>
+  <a class='btn btn-primary' href='/add_card'>Add Card</a>
+  <a class='btn btn-primary' href='/add_restaurant'>Add Restaurant</a>
+  <hr>
+  <table class = 'table table-striped'>
+    <tr>
+      <th>ID</th><!-- th are headings-->
+      <th>Title</th>
+      <th>Author</th>
+      <th>Written On</th>
+      <th></th>
+      <th></th>
+    </tr>
+    {% for cardBob in cardZ %}
+      <tr>
+        <td>{{ cardBob.id }}</td>
+        <td>{{ cardBob.title }}</td>
+        <td>{{ cardBob.author }}</td>
+        <td>{{ cardBob.create_date }}</td>
+        <td>
+          {% if session.username == cardBob.author %}
+            <a href="edit_card/{{cardBob.id}}" class="btn btn-default pull-right">Edit</a>
+          {% endif %}
+        </td>
+        <td>
+          {% if session.username == cardBob.author %}
+              <form action="{{url_for('delete_card', id=cardBob.id)}}" method="post">
+                <input type="hidden" name="_method" value="DELETE">
+                <input type="submit" value="Delete" class='btn btn-danger'>
+              </form>
+          {% endif %}
+        </td>
+      </tr>
+
+    {% endfor %}
+  </table>
+  <br>
+  <p align="right"><small>*Updates take time to load</small></p>
+  <table class = 'table table-striped'>
+    <tr>
+      <th>Restaurant Name</th><!-- th are headings-->
+      <th>Author</th>
+      <th>Graph Data Last Updated</th>
+      <th></th>
+      <th>
+        <form action="{{url_for('update_restaurant_overall_all')}}" method="post">
+          <input type="submit" value="Update All Aggregates" class='btn btn-default pull-right'>
+        </form>
+      </th>
+      <th></th>
+    </tr>
+    {% for rest in restaurantZ %}
+      <tr>
+        <td>{{ rest.name_location }}</td>
+        <td>{{ rest.author }}</td>
+        <td>{{ rest.last_updated }}</td>
+        <td>
+              <form action="{{url_for('update_restaurant', restName= rest.name_location)}}" method="post">
+                <input type="submit" value="Update Graph Data" class='btn btn-default pull-right'>
+              </form>
+        </td>
+        <td>
+              <form action="{{url_for('update_restaurant_overall', restName= rest.name_location)}}" method="post">
+                <input type="submit" value="Update Aggregate Ratings" class='btn btn-default pull-right'>
+              </form>
+        </td>
+        <td>
+          {% if session.username == rest.author %}
+              <form action="{{url_for('delete_restaurant', restName= rest.name_location)}}" method="post">
+                <!-- <input type="hidden" name="_method" value="DELETE"> -->
+                <input type="submit" value="Delete" class='btn btn-danger'>
+              </form>
+          {% endif %}
+        </td>
+      </tr>
+
+    {% endfor %}
+  </table>
+{% endblock %}
